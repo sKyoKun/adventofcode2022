@@ -30,16 +30,17 @@ class Day1Controller extends AbstractController
      */
     public function day1(string $file): JsonResponse
     {
-        $numbers = $numbersInv = $this->inputReader->getInput($file.'.txt');
+        $numbers = $this->inputReader->getInput($file.'.txt');
 
-        foreach ($numbers as $number) {
-            $sub = 2020 - (int)$number;
-            if (\in_array($sub, $numbers)) {
-                return new JsonResponse($sub * $number, Response::HTTP_OK);
+        $increased = 0;
+
+        foreach ($numbers as $key => $number) {
+            if ($key !== 0 && ($number > $numbers[$key-1])) {
+                $increased++;
             }
         }
         
-        return new JsonResponse(null, Response::HTTP_NOT_ACCEPTABLE);
+        return new JsonResponse($increased, Response::HTTP_OK);
     }
 
     /**
@@ -49,18 +50,21 @@ class Day1Controller extends AbstractController
      */
     public function day1bis(string $file): JsonResponse
     {
-        $numbers = $numbersInv = $this->inputReader->getInput($file.'.txt');
+        $numbers =  $this->inputReader->getInput($file.'.txt');
+        $increased = 0;
 
-        sort($numbers);
-        rsort($numbersInv);
-        foreach ($numbers as $number) {
-            foreach ($numbersInv as $invNumber) {
-                foreach ($numbers as $numberTwo)
-                {
-                    if ($number + $invNumber + $numberTwo === 2020) {
-                        return new JsonResponse($number * $invNumber * $numberTwo, Response::HTTP_OK);
-                    }
-                }
+        for ($i = 2 ; $i < count($numbers); $i++) {
+
+            // if we can't do another three-measurement sum, then we return our current increased value
+            if (false === isset($numbers[$i+1])) {
+                return new JsonResponse($increased, Response::HTTP_OK);
+            }
+
+            $firstSum = $numbers[$i-2] + $numbers[$i-1] + $numbers[$i];
+            $secondSum = $numbers[$i-1] + $numbers[$i+1] + $numbers[$i];
+
+            if ($secondSum > $firstSum) {
+                $increased++;
             }
         }
 
