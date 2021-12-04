@@ -37,7 +37,7 @@ class Day3Controller extends AbstractController
     {
         $lines =  $this->inputReader->getInput($file.'.txt');
 
-        $powerConsuption = $this->day3services->calculatePowerConsuption($lines);
+        $powerConsuption = $this->day3services->calculatePowerConsumption($lines);
         
         return new JsonResponse($powerConsuption, Response::HTTP_OK);
     }
@@ -51,7 +51,8 @@ class Day3Controller extends AbstractController
     {
         $lines =  $this->inputReader->getInput($file.'.txt');
 
+        $lifeSupport = $this->day3services->calculateLifeSupportRating($lines);
 
-        return new JsonResponse($depth * $horizontal, Response::HTTP_OK);
+        return new JsonResponse($lifeSupport, Response::HTTP_OK);
     }
 }
