@@ -8,4 +8,6 @@ Install the project : ```composer install```
 
 Run the symfony server : ```symfony server:start``` or ```bin/console server:start```
 
-Run the tests : ```vendor\bin\phpunit```
+Initialize a new day : ```php bin/console generate:day X``` where X is the day number
+
+Run the tests : ```vendor/bin/phpunit``` (unit & functional)

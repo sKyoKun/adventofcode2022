@@ -1,0 +1,26 @@
+<?php
+
+namespace App\Tests\Controller;
+
+use Liip\FunctionalTestBundle\Test\WebTestCase;
+
+class Day[calendarDay]ControllerTest extends WebTestCase
+{
+    public function testDay[calendarDay]Part1()
+    {
+        $client = $this->makeClient();
+        $client->request('GET', '/day[calendarDay]/1/day[calendarDay]test');
+        $this->assertStatusCode(200, $client);
+        $content = \json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals('', $content);
+    }
+
+    public function testDay[calendarDay]Part2()
+    {
+        $client = $this->makeClient();
+        $client->request('GET', '/day[calendarDay]/2/day[calendarDay]test');
+        $this->assertStatusCode(200, $client);
+        $content = \json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals('', $content);
+    }
+}
