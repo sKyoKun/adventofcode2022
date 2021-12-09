@@ -18,4 +18,16 @@ class CalendarServices
 
         return $finalArray;
     }
+
+    public function parseInputFromStringsToArray(array $lines)
+    {
+        $finalArray = [];
+
+        foreach ($lines as $key => $line) {
+            $arrLine = str_split($line);
+            $finalArray[$key] = $arrLine;
+        }
+
+        return $finalArray;
+    }
 }
