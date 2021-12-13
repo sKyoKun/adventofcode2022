@@ -30,4 +30,16 @@ class CalendarServices
 
         return $finalArray;
     }
+
+    public function parseInputFromStringsToIntArray(array $lines)
+    {
+        $finalArray = [];
+
+        foreach ($lines as $key => $line) {
+            $arrLine = array_map('intval', str_split($line));
+            $finalArray[$key] = $arrLine;
+        }
+
+        return $finalArray;
+    }
 }
