@@ -1,4 +1,4 @@
-# adventofcode2021
+# Adventofcode2022
 
 This repository contains all the code writter for https://adventofcode.com/2021. These are Christmas themed exercices that you can answer in any language. Mine is made in PHP/Symfony 
 

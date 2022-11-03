@@ -9,9 +9,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
-* + @Route("/day[calendarDay]")
- */
+#[Route('/day[calendarDay]', name: 'day[calendarDay]')]
 class Day[calendarDay]Controller extends AbstractController
 {
     private InputReader $inputReader;
@@ -28,11 +26,7 @@ class Day[calendarDay]Controller extends AbstractController
         $this->day[calendarDay]services = $day[calendarDay]services;
     }
 
-    /**
-     * @Route("/1/{file}", defaults={"file"="day[calendarDay]"})
-     * @param string $file
-     * @return JsonResponse
-     */
+    #[Route('/1/{file}', name: 'day[calendarDay]_1', defaults: ["file"=>"day[calendarDay]"])]
     public function part1(string $file): JsonResponse
     {
         $lines = $this->inputReader->getInput($file.'.txt');
@@ -40,11 +34,7 @@ class Day[calendarDay]Controller extends AbstractController
         return new JsonResponse('', Response::HTTP_OK);
     }
 
-    /**
-     * @Route("/2/{file}", defaults={"file"="day[calendarDay]"})
-     * @param string $file
-     * @return JsonResponse
-     */
+    #[Route('/2/{file}', name: 'day[calendarDay]_2', defaults: ["file"=>"day[calendarDay]"])]
     public function part2(string $file): JsonResponse
     {
         $lines = $this->inputReader->getInput($file.'.txt');
