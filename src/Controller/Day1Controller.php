@@ -31,7 +31,7 @@ class Day1Controller extends AbstractController
     {
         $lines = $this->inputReader->getInput($file.'.txt');
 
-        return new JsonResponse('', Response::HTTP_OK);
+        return new JsonResponse('ssss', Response::HTTP_OK);
     }
 
     #[Route('/2/{file}', name: 'day1_2', defaults: ["file"=>"day1"])]
@@ -39,6 +39,6 @@ class Day1Controller extends AbstractController
     {
         $lines = $this->inputReader->getInput($file.'.txt');
 
-        return new JsonResponse('', Response::HTTP_NOT_ACCEPTABLE);
+        return new JsonResponse('ttt', Response::HTTP_NOT_ACCEPTABLE);
     }
 }

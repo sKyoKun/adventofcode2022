@@ -13,7 +13,7 @@ class GenerateNewDayCommand extends Command
 {
     private const CONTROLLER_PATH      = './src/Controller/';
     private const SERVICE_PATH         = './src/Services/';
-    private const CONTROLLER_TEST_PATH = './tests/Controller/';
+    private const CONTROLLER_TEST_PATH = './features/';
     private const SERVICE_TEST_PATH    = './tests/Services/';
     private const EXERCISES_FILE_PATH  = './public/Files/';
 
@@ -50,8 +50,8 @@ class GenerateNewDayCommand extends Command
             } elseif (str_contains($content, 'namespace App\Services')) {
                 $fileName = 'Day'.$day.'Services.php';
                 $path = self::SERVICE_PATH.$fileName;
-            } elseif (str_contains($content, 'namespace App\Tests\Controller')) {
-                $fileName = 'Day'.$day.'ControllerTest.php';
+            } elseif (str_contains($content, 'Feature:')) {
+                $fileName = 'day'.$day.'.feature';
                 $path = self::CONTROLLER_TEST_PATH.$fileName;
             } elseif (str_contains($content, 'namespace App\Tests\Services')) {
                 $fileName = 'Day'.$day.'ServicesTest.php';
