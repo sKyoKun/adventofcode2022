@@ -31,7 +31,9 @@ class Day1Controller extends AbstractController
     {
         $lines = $this->inputReader->getInput($file.'.txt');
 
-        return new JsonResponse('ssss', Response::HTTP_OK);
+        $totalCaloriesPerElves = $this->day1services->countCaloriesPerElves($lines);
+
+        return new JsonResponse(max($totalCaloriesPerElves), Response::HTTP_OK);
     }
 
     #[Route('/2/{file}', name: 'day1_2', defaults: ["file"=>"day1"])]
@@ -39,6 +41,11 @@ class Day1Controller extends AbstractController
     {
         $lines = $this->inputReader->getInput($file.'.txt');
 
-        return new JsonResponse('ttt', Response::HTTP_NOT_ACCEPTABLE);
+        $totalCaloriesPerElves = $this->day1services->countCaloriesPerElves($lines);
+
+        rsort($totalCaloriesPerElves);
+        $top3mostCalories = $totalCaloriesPerElves[0] + $totalCaloriesPerElves[1] + $totalCaloriesPerElves[2];
+
+        return new JsonResponse($top3mostCalories, Response::HTTP_OK);
     }
 }
