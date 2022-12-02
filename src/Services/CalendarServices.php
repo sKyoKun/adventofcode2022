@@ -19,12 +19,26 @@ class CalendarServices
         return $finalArray;
     }
 
+    // a bc turns to ['a',' ','b','c']
     public function parseInputFromStringsToArray(array $lines)
     {
         $finalArray = [];
 
         foreach ($lines as $key => $line) {
             $arrLine = str_split($line);
+            $finalArray[$key] = $arrLine;
+        }
+
+        return $finalArray;
+    }
+
+    // a bc turns to ['a', 'bc']
+    public function parseInputFromStringsWithSpaceToArray(array $lines)
+    {
+        $finalArray = [];
+
+        foreach ($lines as $key => $line) {
+            $arrLine = explode(' ',$line);
             $finalArray[$key] = $arrLine;
         }
 
