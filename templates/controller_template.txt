@@ -12,16 +12,10 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/day[calendarDay]', name: 'day[calendarDay]')]
 class Day[calendarDay]Controller extends AbstractController
 {
-    private InputReader $inputReader;
-
-    private Day[calendarDay]Services $day[calendarDay]services;
-
-    /**
-     * @param InputReader $inputReader
-     * @param Day[calendarDay]Services $day[calendarDay]services
-     */
-    public function __construct(InputReader $inputReader, Day[calendarDay]Services $day[calendarDay]services)
-    {
+    public function __construct(
+        private InputReader $inputReader,
+        private Day[calendarDay]Services $day[calendarDay]services
+    ){
         $this->inputReader = $inputReader;
         $this->day[calendarDay]services = $day[calendarDay]services;
     }
