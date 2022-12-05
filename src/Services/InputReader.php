@@ -31,4 +31,22 @@ class InputReader
         return $inputs;
     }
 
+    /**
+     * @param string $file
+     * @return array
+     */
+    public function getInputRTrimmed(string $file): array
+    {
+        $inputs = [];
+        $content = fopen($this->fileDir . $file, 'r');
+
+        while (($line = fgets($content)) !== false) {
+            $lineWithoutSpaces = rtrim($line);
+            $inputs[] = $lineWithoutSpaces;
+        }
+
+        fclose($content);
+
+        return $inputs;
+    }
 }
