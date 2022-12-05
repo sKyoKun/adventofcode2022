@@ -42,6 +42,15 @@ class Day5Controller extends AbstractController
     {
         $lines = $this->inputReader->getInputRTrimmed($file.'.txt');
 
-        return new JsonResponse('', Response::HTTP_NOT_ACCEPTABLE);
+        $nbOfStacks = $this->day5services->getStacksNumber($lines);
+        $stacksLines = $this->day5services->getStacksLines($lines);
+        $directions = $this->day5services->getDirections($lines);
+
+        $stacks = $this->day5services->getStacks($stacksLines, $nbOfStacks);
+        $finalStacks = $this->day5services->moveCrane9001($directions, $stacks);
+
+        $finalString = $this->day5services->getFirstCharsOfStacks($finalStacks);
+
+        return new JsonResponse($finalString, Response::HTTP_OK);
     }
 }

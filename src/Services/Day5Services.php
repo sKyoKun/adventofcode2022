@@ -17,6 +17,7 @@ class Day5Services
 
     public function getStacksNumber(array $lines): int
     {
+        // here we use the last line before blank line to know how many stacks we have
         $lineCounter = 0;
         foreach ($lines as $line) {
             if (empty($line)) {
@@ -80,7 +81,26 @@ class Day5Services
 
             $cranes = substr($stacks[$from], 0, $howMany); // get the first chars
             $stacks[$from] = substr($stacks[$from], $howMany); // removes the char from the "from" stack
-            $stacks[$to] = strrev($cranes).$stacks[$to]; // appends the char in reverse order to the "to" stack
+            $stacks[$to] = strrev($cranes).$stacks[$to]; // appends the char in reverse order to the start of "to" stack
+        }
+
+        return $stacks;
+    }
+
+    public function moveCrane9001(array $instructions, array $stacks): array
+    {
+
+        foreach ($instructions as $instruction)
+        {
+            $matches = null;
+            preg_match("#move (\d+) from (\d+) to (\d+)#", $instruction, $matches);
+            $howMany = $matches[1];
+            $from = $matches[2];
+            $to = $matches[3];
+
+            $cranes = substr($stacks[$from], 0, $howMany); // get the first chars
+            $stacks[$from] = substr($stacks[$from], $howMany); // removes the char from the "from" stack
+            $stacks[$to] = $cranes.$stacks[$to]; // appends the char to the start of the "to" stack
         }
 
         return $stacks;
