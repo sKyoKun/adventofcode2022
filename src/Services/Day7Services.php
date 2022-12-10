@@ -8,7 +8,7 @@ class Day7Services
     {
         $currentDirectorySize = 0;
         foreach ($arborescence[$directoryName] as $key => $name) {
-            if (str_contains($key, 'dir')) {
+            if (is_string($key)) {
                 $currentDirectorySize += $this->calculateDirectorySize($arborescence, $name);
             } else {
                 $currentDirectorySize += $key;
@@ -18,20 +18,23 @@ class Day7Services
         return $currentDirectorySize;
     }
 
-    public function computeArborescence(array $lines, array $arborescence = ['/' => []]) : array
+    public function computeArborescence(array $lines, array &$arborescence) : array
     {
-        $currentDirectory = '/';
+        $currentDirectory = ''; // will contain the path with all directory aggregated
+        $directories = []; // will contain the directories we passed
 
         foreach ($lines as $line) {
             $matches = null;
             if (preg_match('#cd (.+)#', $line, $matches)) {
                 $nextDirectory = $matches[1];
                 if ('..' === $nextDirectory) {
-                    $currentDirectory = $this->searchForDirectoryThatContains($arborescence, $currentDirectory);
+                    $lastDirectory = array_pop($directories);
+                    $currentDirectory = substr($currentDirectory,0,-strlen($lastDirectory)); // we remove the name of the last directory
                     continue;
                 }
 
-                $currentDirectory = $nextDirectory;
+                $currentDirectory .= $nextDirectory;
+                $directories[] = $nextDirectory;
                 continue;
             }
             if (str_starts_with($line, '$ ls')) {
@@ -40,25 +43,13 @@ class Day7Services
             $ls = explode(' ', $line);
 
             if (str_contains($ls[0], 'dir')) {
-                $arborescence[$ls[1]] = [];
-                $arborescence[$currentDirectory][$ls[0].$ls[1]] = $ls[1];
+                $arborescence[$currentDirectory.$ls[1]] = []; // create a new path at the root of our arborescence
+                $arborescence[$currentDirectory][$ls[1]] = $currentDirectory.$ls[1]; // reference the path in our current directory
             } else {
-                $arborescence[$currentDirectory][$ls[0]] = $ls[1];
+                $arborescence[$currentDirectory][$ls[0]] = $ls[1]; // add the file in our directory
             }
         }
 
         return $arborescence;
-    }
-
-    public function searchForDirectoryThatContains(array $arborescence, string $dirName): string
-    {
-        foreach ($arborescence as $directory => $content) {
-            foreach ($content as $type => $name) {
-                if (str_contains('dir', $type) && $name === $dirName) {
-                    return $directory;
-                }
-            }
-        }
-        return '/';
     }
 }

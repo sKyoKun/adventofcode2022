@@ -16,8 +16,6 @@ class Day7Controller extends AbstractController
         private InputReader $inputReader,
         private Day7Services $day7services
     ){
-        $this->inputReader = $inputReader;
-        $this->day7services = $day7services;
     }
 
     #[Route('/1/{file}', name: 'day7_1', defaults: ["file"=>"day7"])]
@@ -25,7 +23,8 @@ class Day7Controller extends AbstractController
     {
         $lines = $this->inputReader->getInput($file.'.txt');
 
-        $arborescence = $this->day7services->computeArborescence($lines);
+        $arborescence = ['/' => []];
+        $this->day7services->computeArborescence($lines, $arborescence);
 
         $directoriesSize = [];
         foreach ($arborescence as $key => $content) {
@@ -49,6 +48,29 @@ class Day7Controller extends AbstractController
     {
         $lines = $this->inputReader->getInput($file.'.txt');
 
-        return new JsonResponse('', Response::HTTP_NOT_ACCEPTABLE);
+        $totalFilesystem = 70000000;
+        $neededSpaceForUpdate = 30000000;
+
+        $arborescence = ['/' => []];
+
+        $this->day7services->computeArborescence($lines, $arborescence);
+
+        $directoriesSize = [];
+        foreach ($arborescence as $key => $content) {
+            $directoriesSize[$key] = $this->day7services->calculateDirectorySize($arborescence, $key);
+        }
+
+        $totalOccupiedSpace = $directoriesSize['/'];
+        $freeSpace = $totalFilesystem - $totalOccupiedSpace;
+        $neededSpace = $neededSpaceForUpdate - $freeSpace;
+
+        sort($directoriesSize);
+
+        $i=0;
+        while($neededSpace > $directoriesSize[$i]) {
+            $i++;
+        }
+
+        return new JsonResponse($directoriesSize[$i], Response::HTTP_OK);
     }
 }
